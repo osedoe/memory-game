@@ -13,9 +13,22 @@
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-template-rows: repeat(var(--rows), 1fr);
-    grid-gap: .2em;
+    grid-gap: .9em;
+}
+
+.boardContainer > div {
+    place-self: center;
 }
 
 .boardContainer img {
     border: 1px solid coral;
+    width: 100%;
+}
+
+.boardContainer img:hover {
+    outline: 3px solid coral;
+}
+
+.boardContainer img:focus {
+    transform: scale(1.1);
 }

@@ -1,6 +1,7 @@
 const domVariables = {
   select: document.getElementById('game-level'),
   submit: document.getElementById('submit'),
+  reset: document.getElementById('reset'),
   container: document.getElementsByClassName('boardContainer')[0],
   score: document.getElementById('score')
 }
@@ -41,8 +42,6 @@ domVariables.submit.addEventListener('click', function (event) {
 domVariables.container.addEventListener('click', function (event) {
   const element = event.target;
   if (element.tagName === 'IMG') {
-    domVariables.score.textContent--;
-    gameVariables.score = parseInt(domVariables.score.textContent);
     flipCard(element);
     if (gameVariables.matchingPair.length === 0 || gameVariables.matchingPair.length === 1) {
       gameVariables.matchingPair.push(element.parentNode);
@@ -55,12 +54,16 @@ domVariables.container.addEventListener('click', function (event) {
   }
 });
 
+reset.addEventListener('click', () => window.location.reload());
+
 function checkPairs(card1, card2) {
   if (card1.firstChild.getAttribute('src') === card2.firstChild.getAttribute('src')) {
     domVariables.score.textContent = gameVariables.score + 10;
     gameVariables.guessedPairs++;
     checkFinishedGame();
   } else {
+    domVariables.score.textContent--;
+    gameVariables.score = parseInt(domVariables.score.textContent);
     // Wait .8s if cards don't match
     setTimeout(() => {
       card1.firstChild.setAttribute('alt', card1.firstChild.getAttribute('src'));
@@ -117,7 +120,12 @@ function generatePairOfCards(number) {
   let grid = [];
 
   for (let i = 1; i <= number; i = i + 2) {
-    let imageIndex = getNumber(0, images.length);
+    let arrOfIndex = [];
+    let imageIndex;
+    do {
+      imageIndex = getNumber(0, images.length);
+    } while (arrOfIndex.includes(imageIndex));
+    arrOfIndex.push(imageIndex);
     // Create two cards
     let card1 = createCardElement();
     let card2 = createCardElement();
@@ -131,7 +139,6 @@ function generatePairOfCards(number) {
       card.firstChild.setAttribute('alt', `/assets/${images[imageIndex]}`);
       grid.push(card);
     });
-
   }
   shuffleArr(grid);
   grid.forEach(element => domVariables.container.appendChild(element));
