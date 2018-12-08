@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Encontrar las parejas - Jose Diaz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Asocia las parejas</h1>
+        <div class="user-interface">
+            <form id="form">
+                <p>Elige un nivel de dificultad:</p>
+                <input type="radio" name="level" id="easy" value="easy" checked>
+                <label for="easy">Fácil</label>
+                <input type="radio" name="level" id="medium" value="medium">
+                <label for="hard">Medio</label>
+                <input type="radio" name="level" id="hard" value="hard">
+                <label for="easy">Difícil</label>
+                <p>
+                    <input type="button" id="submit" value="Empezar">
+                </p>
+            </form>
+            <div class="game-frame">
+                <div>Score: <span id="score">0</span></div>
+            </div>
+        </div>
+    </header>
+    <section>
+
+        <div class="boardContainer">
+
+        </div>
+
+    </section>
+    <script src="script/imagenes.js"></script>
+    <script src="script/utils.js"></script>
+    <script src="script/app.js"></script>
+</body>
+
+</html>

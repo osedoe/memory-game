@@ -1,0 +1,21 @@
+:root {
+    --columns: 0;
+    --rows: 0;
+}
+
+.user-interface {
+    display: grid;
+    grid-template-columns: 4fr 3fr;
+    align-items: center;
+}
+
+.boardContainer {
+    display: grid;
+    grid-template-columns: repeat(var(--columns), 1fr);
+    grid-template-rows: repeat(var(--rows), 1fr);
+    grid-gap: .2em;
+}
+
+.boardContainer img {
+    border: 1px solid coral;
+}
