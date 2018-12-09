@@ -83,16 +83,19 @@ function checkPairs(card1, card2) {
   const card2Img = card2.firstChild;
   const pair = [card1Img, card2Img];
   if (card1Img.getAttribute('src') === card2Img.getAttribute('src') && card1.id !== card2.id) {
-    domVariables.score.textContent = gameVariables.score + 10;
+    
     gameVariables.guessedPairs++;
     pair.forEach(card => {
       if (!card.className.includes('matched')) {
         card.className += ' matched;'
       }
     });
-    // card1Img.className += ' matched';
-    // card2Img.className += ' matched';
-    checkFinishedGame();
+    (() => {
+      domVariables.score.textContent = gameVariables.score + 10;
+      checkFinishedGame();
+    })();
+    
+    
   } else {
 
     domVariables.score.textContent--;
@@ -114,9 +117,12 @@ function checkPairs(card1, card2) {
 function checkFinishedGame() {
   if (gameVariables.guessedPairs === gameVariables.uniqueCards) {
     // TODO: Implement webstorage, stop timer, show last results 
-    domVariables.scoreDisplay.textContent = gameVariables.score;
+    
     domVariables.timeDisplay.textContent = `${domVariables.minutes.textContent}:${domVariables.seconds.textContent}`;
-    domVariables.modal.style.display = 'block';
+    setTimeout(() => {
+      domVariables.scoreDisplay.textContent = domVariables.score.textContent;
+      domVariables.modal.style.display = 'block';
+    }, 800);
   }
 }
 
