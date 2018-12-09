@@ -1,27 +1,32 @@
+/* eslint-disable no-undef */
 // TODO: show last results 
-
 
 // ==== Variable declaration ==== //
 // Path for reverse image
-const reverseCardPath = `/assets/reverso.png`;
+const reverseCardPath = '/assets/reverso.png';
 
 // Variables used with the DOM
 const domVariables = {
+  // Buttons
   select: document.getElementById('game-level'),
   submit: document.getElementById('submit'),
   reset: document.getElementById('reset'),
   reset2: document.getElementById('reset2'),
+  saveBtn: document.getElementById('save-data'),
+  hallBtn: document.getElementById('hall-of-fame'),
+  closeHall: document.getElementById('close-hall'),
+  // Others
   container: document.getElementsByClassName('boardContainer')[0],
   score: document.getElementById('score'),
-  minutes: document.getElementById("minutes"),
-  seconds: document.getElementById("seconds"),
-  modal: document.getElementsByClassName('modal')[0],
+  minutes: document.getElementById('minutes'),
+  seconds: document.getElementById('seconds'),
+  modalResult: document.getElementsByClassName('modal')[0],
+  modalHall: document.getElementsByClassName('modal')[1],
   scoreDisplay: document.getElementById('score-display'),
   timeDisplay: document.getElementById('time-display'),
-  saveBtn: document.getElementById('save-data'),
   totalGames: document.getElementById('games-span'),
   maxScore: document.getElementById('max-score-span')
-}
+};
 
 // Game Variables
 const gameVariables = {
@@ -38,7 +43,7 @@ const gameVariables = {
     time: '',
     date: ''
   }
-}
+};
 
 // ==== Event Listeners ==== //
 // Load maxixum score and number of games everytime the page loads
@@ -49,13 +54,12 @@ window.addEventListener('load', () => {
 });
 
 // Selection of the game
-domVariables.submit.addEventListener('click', function (event) {
+domVariables.submit.addEventListener('click', function () {
   domVariables.score.textContent = gameVariables.score;
   const inputs = this.parentNode.parentNode.children;
   let choice;
-  let grid = [];
   // Find selected level
-  for (element of inputs) {
+  for (let element of inputs) {
     if (element.checked === true) {
       choice = element.value;
     }
@@ -81,8 +85,16 @@ domVariables.container.addEventListener('click', function (event) {
 });
 
 // Reset buttons
-reset.addEventListener('click', () => window.location.reload());
-reset2.addEventListener('click', () => window.location.reload());
+domVariables.reset.addEventListener('click', () => window.location.reload());
+domVariables.reset2.addEventListener('click', () => window.location.reload());
+
+// Hall of Fame button
+domVariables.hallBtn.addEventListener('click', () => {
+  domVariables.modalHall.style.display = 'block';
+  getHallOfFame();
+});
+
+domVariables.closeHall.addEventListener('click', () => domVariables.modalHall.style.display = 'none');
 
 // Save data on user confirmation after the game finishes
 domVariables.saveBtn.addEventListener('click', () => {
@@ -92,23 +104,47 @@ domVariables.saveBtn.addEventListener('click', () => {
   localStorage.setItem(`game${localStorage.length}`, JSON.stringify(gameVariables.currentGame));
   // Empty object for reuse
   gameVariables.currentGame = {};
+  domVariables.modalResult.style.display = 'none';
 });
 
 
 // ==== Function declarations ==== //
+function getHallOfFame() {
+  const arrayOfGames = getLocalStorageList();
+  // We will write a function to pass to sort()
+  const sortedGames = arrayOfGames.sort((game1, game2) => (game1.score < game2.score) ?
+    1 :
+    ((game2.score < game1.score) ? -1 : 0));
+  const firstFive = sortedGames.slice(0, 5);
+  // Remove brackets and quotation marks
+  firstFive.forEach(element => {
+    let stringResult = JSON.stringify(element);
+    let result = stringResult.replace(/"/g, ' ').replace(/\{/g, '').replace(/\}/, '');
+    domVariables.modalHall.children[0].children[0].innerHTML += `${result}<br>`;
+  });
+  
+
+}
+
 // Dives into the Local Storage and get the maximum score out of all the games
 function getMaxScore() {
-  let arrayOfGames = [];
+  
   let arrayOfScores = [];
   let maxScore = 0;
   // Iterate and get the values and parse them to JavaScript objects
-  for (let i = 0; i < localStorage.length; i++) {
-    arrayOfGames.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-  }
+  let arrayOfGames = getLocalStorageList();
   // Create a new array only with the scores of those games
   arrayOfScores = arrayOfGames.map(game => game.score);
   maxScore = Math.max(...arrayOfScores);
   domVariables.maxScore.textContent = maxScore;
+}
+
+function getLocalStorageList() {
+  let arrayOfGames = [];
+  for (let i = 0; i < localStorage.length; i++) {
+    arrayOfGames.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+  }
+  return arrayOfGames;
 }
 
 // On user click, search for a match
@@ -124,7 +160,7 @@ function checkCard(event) {
     if (pair.length === 0) {
       pair.push(element.parentNode);
     } else if (pair.length === 1 && pair[0].parentNode.id !== element.parentNode.id) {
-      pair.push(element.parentNode)
+      pair.push(element.parentNode);
     }
     if (pair.length === 2) {
       let match1 = pair[0];
@@ -179,7 +215,7 @@ function checkFinishedGame() {
       // Stop timer on game finish
       clearInterval(gameVariables.stopInterval);
       domVariables.scoreDisplay.textContent = domVariables.score.textContent;
-      domVariables.modal.style.display = 'block';
+      domVariables.modalResult.style.display = 'block';
     }, 800);
   }
 }
@@ -191,35 +227,34 @@ function saveData() {
     score: domVariables.score.textContent,
     time: `${domVariables.minutes.textContent}:${domVariables.seconds.textContent}`,
     date: new Date().toUTCString()
-  }
-  console.log(document.getElementById('name').value);
+  };
 }
 
 // Generate grid according to user selection
 function chooseGrid(level) {
   let numberOfCards, gridRows, gridColumns;
   switch (level) {
-    // Assign 16 images
-    case 'easy':
-      numberOfCards = 16;
-      gridRows = 4;
-      gridColumns = 4;
-      break;
-      // Assign 32 images
-    case 'medium':
-      numberOfCards = 36;
-      gridRows = 6;
-      gridColumns = 6;
-      break;
-      // Assign 64 images
-    case 'hard':
-      numberOfCards = 64;
-      gridRows = 8;
-      gridColumns = 8;
-      break;
-    default:
-      // Nothing to do here
-      break;
+  // Assign 16 images
+  case 'easy':
+    numberOfCards = 16;
+    gridRows = 4;
+    gridColumns = 4;
+    break;
+    // Assign 32 images
+  case 'medium':
+    numberOfCards = 36;
+    gridRows = 6;
+    gridColumns = 6;
+    break;
+    // Assign 64 images
+  case 'hard':
+    numberOfCards = 64;
+    gridRows = 8;
+    gridColumns = 8;
+    break;
+  default:
+    // Nothing to do here
+    break;
   }
   return {
     numberOfCards,
@@ -286,12 +321,12 @@ function flipCard(element) {
 // Timer function
 function runTimer() {
   // Reset value each time it hits 9
-  const pad = value => (value > 9) ? value : "0" + value;
+  const pad = value => (value > 9) ? value : '0' + value;
   let second = 0;
   gameVariables.stopInterval = setInterval(function () {
     // Set seconds first
-    seconds.innerHTML = pad(++second % 60);
+    domVariables.seconds.innerHTML = pad(++second % 60);
     // Set minutes
-    minutes.innerHTML = pad(parseInt(second / 60, 10));
+    domVariables.minutes.innerHTML = pad(parseInt(second / 60, 10));
   }, 1000);
 }

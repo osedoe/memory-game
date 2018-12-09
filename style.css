@@ -28,8 +28,8 @@ button, input[type='button'] {
     border: 2px solid black;
     box-shadow: 4px 4px 2px darkmagenta;  
     color: black;
-    margin: .6em;
-    padding: .6em;
+    margin: .5em;
+    padding: .5em;
     font-family: var(--bungee);
 }
 
@@ -92,7 +92,6 @@ min-height: 70vh;
 }
 
 .boardContainer > div {
-    background: white;
     margin: 0;
     padding: 0;
     place-self: center;

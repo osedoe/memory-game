@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <title>Parejas - Jose Diaz</title>
     <link rel="icon" href="/assets/favicon.ico">
     <link rel="icon" href="/assets/favicon.ico" type="image/gif">
@@ -28,23 +28,26 @@
                 <input type="radio" name="level" id="hard" value="hard">
                 <label for="easy">Difícil</label>
                 <p>
-                    <input data-intro="Dale a empezar para que aparezcan las cartas y empieza a buscar las parejas seleccionándolas." data-step="3" type="button" id="submit" value="Empezar">
-                    <input data-intro="Si quieres reiniciar en cualquier momento, pulsa aquí" data-step="4" type="button" id="reset" value="Reiniciar">
+                    <input data-intro="Dale a empezar para que aparezcan las cartas y empieza a buscar las parejas seleccionándolas."
+                        data-step="3" type="button" id="submit" value="Empezar">
+                    <input data-intro="Si quieres reiniciar en cualquier momento, pulsa aquí" data-step="4" type="button"
+                        id="reset" value="Reiniciar">
                 </p>
             </form>
             <div class="game-frame">
-                
+
                 <div class="score-container" data-intro="Aquí se muestra diversa información del juego." data-step="5">
+                    <button id="hall-of-fame">Hall de la fama</button>
                     <div class="games">Partidas jugadas: <span id="games-span">0</span> </div>
                     <div class="max-score">Máxima puntuación: <span id="max-score-span">0</span></div>
                 </div>
                 <div>Puntuación actual: <span id="score">0</span></div>
                 <div id="timer-container" data-intro="Y sobre todo, intenta no tardar mucho... ¡A jugar!" data-step="6">
-                        <p>
-                            <span class="timer" id="minutes">00</span> :
-                            <span class="timer" id="seconds">00</span>
-                        </p>
-                    </div>
+                    <p>
+                        <span class="timer" id="minutes">00</span> :
+                        <span class="timer" id="seconds">00</span>
+                    </p>
+                </div>
             </div>
         </div>
     </header>
@@ -59,7 +62,6 @@
         <div class="modal">
             <div class="modal-container">
                 <h2>¡Enhorabuena!</h2>
-                <span class="close">&times;</span>
                 <div class="info">
                     <p>Has terminado la partida con...</p>
                     <p>Puntuación: <span id="score-display"></span></p>
@@ -74,7 +76,12 @@
                     </p>
                 </div>
             </div>
-
+        </div>
+        <div class="modal">
+            <div class="modal-container">
+                <div class="hall"></div>
+                <button id="close-hall">Cerrar</button>
+            </div>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/intro.js@2.9.3/intro.min.js"></script>
