@@ -5,6 +5,23 @@
 }
 
 /* Header */
+
+body {
+    margin: 0;
+}
+
+header {
+    background: palevioletred;
+    color: white;
+    margin: 0;
+    padding: 1em;
+    text-shadow: 2px 2px 2px black;
+}
+
+section{
+    padding: 1em;
+} 
+
 .user-interface {
     display: grid;
     grid-template-columns: 4fr 3fr;

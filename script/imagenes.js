@@ -78,7 +78,7 @@ function cargarImagenes() {
   frutas[29] = "frutas/pera.jpg";
   frutas[30] = "frutas/pimientoamarillo.jpeg";
   frutas[31] = "frutas/pimientorojo.png";
-  frutas[32] = "frutas/piña.jpeg";
+  frutas[32] = "frutas/pina.jpeg";
   frutas[33] = "frutas/platano.jpeg";
   frutas[34] = "frutas/puerro.png";
   frutas[35] = "frutas/remolacha.jpg";

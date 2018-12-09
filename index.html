@@ -33,7 +33,11 @@
                         <span class="timer" id="seconds">00</span>
                     </p>
                 </div>
-                <div>Score: <span id="score">0</span></div>
+                <div class="score-container">
+                    <div class="games">Partidas jugadas: <span id="games-span">0</span> </div>
+                    <div class="max-score">Máxima puntuación: <span id="max-score-span">0</span></div>
+                </div>
+                <div>Puntiación actual: <span id="score">0</span></div>
             </div>
         </div>
     </header>
@@ -58,7 +62,8 @@
                     <label for="name">Nombre:</label>
                     <input type="text" id="name" name="name">
                     <p>
-                        <input type="button" value="Guardar mi resultado">
+                        <input id="save-data" type="button" value="Guardar mi resultado">
+                        <input id="reset2" type="reset" value="Reiniciar">
                     </p>
                 </div>
             </div>
