@@ -71,6 +71,7 @@ domVariables.submit.addEventListener('click', function (event) {
   setGridVariables(gridRows, gridColumns);
   generatePairOfCards(numberOfCards);
   // Start the timer on grid creation
+  runTimer();
 });
 
 // Check mechanics each time a card is clicked
@@ -143,7 +144,9 @@ function checkPairs(card1, card2) {
     // Mark guess cards as 'matched'
     pair.forEach(card => {
       if (!card.className.includes('matched')) {
-        card.className += ' matched;'
+        card.style.filter = 'grayscale(100%)';
+        card.style.border = 'none';
+        card.className += ' matched';
       }
     });
     // We are enclosing each guess in a callback to delay the game speed and make it more natural

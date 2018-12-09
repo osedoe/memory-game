@@ -5,8 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Encontrar las parejas - Jose Diaz</title>
+    
+    <title>Parejas - Jose Diaz</title>
+    <link rel="icon" href="/assets/favicon.ico">
+    <link rel="icon" href="/assets/favicon.ico" type="image/gif">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Bungee|Montserrat" rel="stylesheet">
+
 </head>
 
 <body>
@@ -27,17 +32,18 @@
                 </p>
             </form>
             <div class="game-frame">
-                <div id="timer-container">
-                    <p>
-                        <span class="timer" id="minutes">00</span> :
-                        <span class="timer" id="seconds">00</span>
-                    </p>
-                </div>
+                
                 <div class="score-container">
                     <div class="games">Partidas jugadas: <span id="games-span">0</span> </div>
                     <div class="max-score">Máxima puntuación: <span id="max-score-span">0</span></div>
                 </div>
-                <div>Puntiación actual: <span id="score">0</span></div>
+                <div>Puntuación actual: <span id="score">0</span></div>
+                <div id="timer-container">
+                        <p>
+                            <span class="timer" id="minutes">00</span> :
+                            <span class="timer" id="seconds">00</span>
+                        </p>
+                    </div>
             </div>
         </div>
     </header>
@@ -63,7 +69,7 @@
                     <input type="text" id="name" name="name">
                     <p>
                         <input id="save-data" type="button" value="Guardar mi resultado">
-                        <input id="reset2" type="reset" value="Reiniciar">
+                        <input id="reset2" type="button" value="Reiniciar">
                     </p>
                 </div>
             </div>

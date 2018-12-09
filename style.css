@@ -2,25 +2,60 @@
 :root {
     --columns: 0;
     --rows: 0;
+    --bungee: 'Bungee', cursive;
+    --monstserrat: 'Montserrat', sans-serif;
 }
 
-/* Header */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Bungee', cursive;
+    padding: .5em;
+    text-shadow: 4px 4px 2px darkmagenta;
+}
 
 body {
     margin: 0;
+    font-family: 'Montserrat', sans-serif;
 }
 
+button, input[type='button'] {
+    background: white;
+    border: 2px solid black;
+    box-shadow: 4px 4px 2px darkmagenta;  
+    color: black;
+    margin: .6em;
+    padding: .6em;
+    font-family: var(--bungee);
+}
+
+button:hover, input[type='button']:hover {
+    transform: scale(1.1);
+} 
+
+button:active, input[type='button']:active {
+    box-shadow: 0 0 0 black;
+    transform: scale(.95);
+} 
+
+/* Header */
 header {
     background: palevioletred;
     color: white;
+    display: grid;
+    grid-template-columns: 1fr;
+     
     margin: 0;
     padding: 1em;
     text-shadow: 2px 2px 2px black;
 }
 
-section{
+section {
     padding: 1em;
-} 
+}
 
 .user-interface {
     display: grid;
@@ -28,11 +63,19 @@ section{
     align-items: center;
 }
 
+.game-frame * {
+    padding: .2em;
+}
+
 /* Timer */
 .timer-container {
     display: flex;
     grid-template-columns: 1fr 1fr;
+}
 
+#timer-container p {
+    font-size: 1.8em;
+    margin-right: 2em;
 }
 
 /* Board style */
@@ -45,13 +88,14 @@ section{
 
 .boardContainer>div {
     place-self: center;
-
+    display: grid;
 }
 
 
 /* Card image style */
 .boardContainer img {
-    border: 1px solid palevioletred;
+    border: 2px solid palevioletred;
+    place-self: center;
     width: 100%;
     transition: opacity .8s;
 }
@@ -61,7 +105,15 @@ section{
 }
 
 .boardContainer img:hover {
-    outline: 3px solid palevioletred;
+    border: none;
+    outline: 4px solid darkmagenta;
+    filter: brightness(120%);
+}
+
+.boardContainer .matched:hover {
+    outline: none;
+    pointer-events: none;
+    opacity: 0;
 }
 
 /* Game finish modal */
@@ -85,7 +137,7 @@ section{
     margin: 15% auto;
     padding: 20px;
     border: 4px solid white;
-    width: 60%; 
+    width: 60%;
 }
 
 .modal-container .close {
@@ -93,9 +145,15 @@ section{
     font-size: 1.4em;
     justify-self: end;
     align-self: start;
-    
+
 }
 
-.modal-container > * {
+.modal-container>* {
     place-self: center;
+}
+
+@media (min-width: 1024px) {
+    header {
+        grid-template-columns: 1fr 2fr;
+    }
 }
