@@ -3,15 +3,24 @@ const domVariables = {
   submit: document.getElementById('submit'),
   reset: document.getElementById('reset'),
   container: document.getElementsByClassName('boardContainer')[0],
-  score: document.getElementById('score')
+  score: document.getElementById('score'),
+  minutes: document.getElementById("minutes"),
+  seconds: document.getElementById("seconds"),
+  modal: document.getElementsByClassName('modal')[0],
+  scoreDisplay: document.getElementById('score-display'),
+  timeDisplay: document.getElementById('time-display')
 }
 
 const gameVariables = {
   score: 0,
+  lastScore: 0,
+  lastTime: 0,
   matchingPair: [],
   guessedPairs: 0,
   uniqueCards: 0
 }
+
+const reverseCardPath = `/assets/reverso.png`;
 
 // Selection of the game
 domVariables.submit.addEventListener('click', function (event) {
@@ -37,6 +46,7 @@ domVariables.submit.addEventListener('click', function (event) {
   // Generate grid and its cards
   setGridVariables(gridRows, gridColumns);
   generatePairOfCards(numberOfCards);
+  runTimer();
 });
 
 domVariables.container.addEventListener('click', function (event) {
@@ -57,19 +67,23 @@ domVariables.container.addEventListener('click', function (event) {
 reset.addEventListener('click', () => window.location.reload());
 
 function checkPairs(card1, card2) {
-  if (card1.firstChild.getAttribute('src') === card2.firstChild.getAttribute('src')) {
+  const card1Img = card1.firstChild;
+  const card2Img = card2.firstChild;
+  if (card1Img.getAttribute('src') === card2Img.getAttribute('src')) {
     domVariables.score.textContent = gameVariables.score + 10;
     gameVariables.guessedPairs++;
+    card1Img.className += ' matched';
+    card2Img.className += ' matched';
     checkFinishedGame();
   } else {
     domVariables.score.textContent--;
     gameVariables.score = parseInt(domVariables.score.textContent);
     // Wait .8s if cards don't match
     setTimeout(() => {
-      card1.firstChild.setAttribute('alt', card1.firstChild.getAttribute('src'));
-      card2.firstChild.setAttribute('alt', card2.firstChild.getAttribute('src'));
-      card1.firstChild.setAttribute('src', `/assets/reverso.png`);
-      card2.firstChild.setAttribute('src', `/assets/reverso.png`);
+      card1Img.setAttribute('alt', card1Img.getAttribute('src'));
+      card2Img.setAttribute('alt', card2Img.getAttribute('src'));
+      card1Img.setAttribute('src', reverseCardPath);
+      card2Img.setAttribute('src', reverseCardPath);
     }, 800);
   }
   gameVariables.matchingPair = [];
@@ -77,7 +91,10 @@ function checkPairs(card1, card2) {
 
 function checkFinishedGame() {
   if (gameVariables.guessedPairs === gameVariables.uniqueCards) {
-    alert('woho');
+    // TODO: Implement webstorage, stop timer, show last results 
+    domVariables.scoreDisplay.textContent = gameVariables.score;
+    domVariables.timeDisplay.textContent = `${domVariables.minutes.textContent}:${domVariables.seconds.textContent}`;
+    domVariables.modal.style.display = 'block';
   }
 }
 
@@ -135,7 +152,7 @@ function generatePairOfCards(number) {
     card2.id = i + 1;
 
     pair.forEach(card => {
-      card.firstChild.setAttribute('src', `/assets/reverso.png`);
+      card.firstChild.setAttribute('src', reverseCardPath);
       card.firstChild.setAttribute('alt', `/assets/${images[imageIndex]}`);
       grid.push(card);
     });
@@ -143,7 +160,7 @@ function generatePairOfCards(number) {
   shuffleArr(grid);
   grid.forEach(element => domVariables.container.appendChild(element));
 
-
+  // Create one single card element
   function createCardElement() {
     let cardContainer = document.createElement('div');
     cardContainer.className = 'card-container';
@@ -164,4 +181,17 @@ function setGridVariables(rows, columns) {
 function flipCard(element) {
   const sourceImg = element.getAttribute('alt');
   element.setAttribute('src', sourceImg);
+}
+
+// Timer function
+function runTimer() {
+  // Reset value each time it hits 9
+  const pad = value => (value > 9) ? value : "0" + value;
+  let second = 0;
+  setInterval(function () {
+    // Set seconds first
+    seconds.innerHTML = pad(++second % 60);
+    // Set minutes
+    minutes.innerHTML = pad(parseInt(second / 60, 10));
+  }, 1000);
 }

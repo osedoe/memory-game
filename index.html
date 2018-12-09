@@ -27,6 +27,12 @@
                 </p>
             </form>
             <div class="game-frame">
+                <div id="timer-container">
+                    <p>
+                        <span class="timer" id="minutes">00</span> :
+                        <span class="timer" id="seconds">00</span>
+                    </p>
+                </div>
                 <div>Score: <span id="score">0</span></div>
             </div>
         </div>
@@ -34,10 +40,31 @@
     <section>
 
         <div class="boardContainer">
-
+            <!--  Here goes all the gards -->
         </div>
 
     </section>
+    <footer>
+        <div class="modal">
+            <div class="modal-container">
+                <h2>¡Enhorabuena!</h2>
+                <span class="close">&times;</span>
+                <div class="info">
+                    <p>Has terminado la partida con...</p>
+                    <p>Puntuación: <span id="score-display"></span></p>
+                    <p>Tiempo: <span id="time-display"></span></p>
+                </div>
+                <div class="form">
+                    <label for="name">Nombre:</label>
+                    <input type="text" id="name" name="name">
+                    <p>
+                        <input type="button" value="Guardar mi resultado">
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </footer>
     <script src="script/imagenes.js"></script>
     <script src="script/utils.js"></script>
     <script src="script/app.js"></script>
