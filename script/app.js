@@ -50,40 +50,62 @@ domVariables.submit.addEventListener('click', function (event) {
 });
 
 domVariables.container.addEventListener('click', function (event) {
+  checkCard(event);
+});
+
+
+
+reset.addEventListener('click', () => window.location.reload());
+
+function checkCard(event) {
   const element = event.target;
+  let pair = gameVariables.matchingPair;
+  // Listen to the board but accept only card clicks
   if (element.tagName === 'IMG') {
+    element.style.transform = 'scale(1.1)';
     flipCard(element);
-    if (gameVariables.matchingPair.length === 0 || gameVariables.matchingPair.length === 1) {
-      gameVariables.matchingPair.push(element.parentNode);
+    console.log(pair[0]);
+    if (pair.length === 0) {
+      pair.push(element.parentNode);
+    } else if (pair.length === 1 && pair[0].parentNode.id !== element.parentNode.id) {
+      pair.push(element.parentNode)
     }
-    if (gameVariables.matchingPair.length === 2) {
-      let match1 = gameVariables.matchingPair[0];
-      let match2 = gameVariables.matchingPair[1];
+    if (pair.length === 2) {
+      let match1 = pair[0];
+      let match2 = pair[1];
       checkPairs(match1, match2);
     }
   }
-});
-
-reset.addEventListener('click', () => window.location.reload());
+}
 
 function checkPairs(card1, card2) {
   const card1Img = card1.firstChild;
   const card2Img = card2.firstChild;
-  if (card1Img.getAttribute('src') === card2Img.getAttribute('src')) {
+  const pair = [card1Img, card2Img];
+  if (card1Img.getAttribute('src') === card2Img.getAttribute('src') && card1.id !== card2.id) {
     domVariables.score.textContent = gameVariables.score + 10;
     gameVariables.guessedPairs++;
-    card1Img.className += ' matched';
-    card2Img.className += ' matched';
+    pair.forEach(card => {
+      if (!card.className.includes('matched')) {
+        card.className += ' matched;'
+      }
+    });
+    // card1Img.className += ' matched';
+    // card2Img.className += ' matched';
     checkFinishedGame();
   } else {
+
     domVariables.score.textContent--;
     gameVariables.score = parseInt(domVariables.score.textContent);
+
     // Wait .8s if cards don't match
+    
     setTimeout(() => {
-      card1Img.setAttribute('alt', card1Img.getAttribute('src'));
-      card2Img.setAttribute('alt', card2Img.getAttribute('src'));
-      card1Img.setAttribute('src', reverseCardPath);
-      card2Img.setAttribute('src', reverseCardPath);
+      pair.forEach(card => {
+        card.setAttribute('alt', card.getAttribute('src'));
+        card.setAttribute('src', reverseCardPath);
+        card.style.transform = 'scale(1)';
+      });
     }, 800);
   }
   gameVariables.matchingPair = [];

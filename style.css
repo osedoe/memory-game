@@ -23,7 +23,7 @@
     display: grid;
     grid-template-columns: repeat(var(--columns), 1fr);
     grid-template-rows: repeat(var(--rows), 1fr);
-    grid-gap: .9em;
+    grid-gap: 1em;
 }
 
 .boardContainer>div {
@@ -34,7 +34,7 @@
 
 /* Card image style */
 .boardContainer img {
-    border: 1px solid coral;
+    border: 1px solid palevioletred;
     width: 100%;
     transition: opacity .8s;
 }
@@ -44,11 +44,7 @@
 }
 
 .boardContainer img:hover {
-    outline: 3px solid coral;
-}
-
-.boardContainer img:focus {
-    transform: scale(1.1);
+    outline: 3px solid palevioletred;
 }
 
 /* Game finish modal */
@@ -65,7 +61,7 @@
 }
 
 .modal-container {
-    background-color: lightblue;
+    background-color: lightpink;
     box-shadow: 6px 6px 6px black;
     display: grid;
     grid-template-columns: 1fr 1fr;
