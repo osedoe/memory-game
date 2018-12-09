@@ -152,6 +152,22 @@ section {
     place-self: center;
 }
 
+/* Media Queries */
+
+@media (max-width: 500px) {
+    header {
+        grid-template-columns: 1fr;
+    }
+
+    .user-interface {
+        grid-template-columns: 1fr;
+    }
+
+    .boardContainer {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (min-width: 1024px) {
     header {
         grid-template-columns: 1fr 2fr;

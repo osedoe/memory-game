@@ -45,6 +45,7 @@ const gameVariables = {
 window.addEventListener('load', () => {
   domVariables.totalGames.textContent = localStorage.length;
   getMaxScore();
+  introJs().start();
 });
 
 // Selection of the game
