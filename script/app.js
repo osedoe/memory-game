@@ -113,6 +113,9 @@ function getHallOfFame() {
   domVariables.modalHall.children[0].children[0].innerHTML = '';
   const arrayOfGames = getLocalStorageList();
   // WWe will sort it depending on different paramenters
+  // const sortedGames = arrayOfGames.sort((game1, game2) => (game1.score < game2.score) ?
+  //   1 :
+  //   ((game2.score < game1.score) ? -1 : 0));
   const sortedGames = arrayOfGames.sort((game1, game2) =>
     game2.score - game1.score || // Sort in descending order for score
     game1.time - game2.time || // If 0, sort in ascending order for time
