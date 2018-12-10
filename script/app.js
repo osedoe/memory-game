@@ -110,17 +110,19 @@ domVariables.saveBtn.addEventListener('click', () => {
 
 // ==== Function declarations ==== //
 function getHallOfFame() {
+  domVariables.modalHall.children[0].children[0].innerHTML = '';
   const arrayOfGames = getLocalStorageList();
-  // We will write a function to pass to sort()
-  const sortedGames = arrayOfGames.sort((game1, game2) => (game1.score < game2.score) ?
-    1 :
-    ((game2.score < game1.score) ? -1 : 0));
+  // WWe will sort it depending on different paramenters
+  const sortedGames = arrayOfGames.sort((game1, game2) =>
+    game2.score - game1.score || // Sort in descending order for score
+    game1.time - game2.time || // If 0, sort in ascending order for time
+    game2.date - game1.date); // If 0, sort in descending order for date
   const firstFive = sortedGames.slice(0, 5);
   // Remove brackets and quotation marks
-  firstFive.forEach(element => {
+  firstFive.forEach((element, index) => {
     let stringResult = JSON.stringify(element);
     let result = stringResult.replace(/"/g, ' ').replace(/\{/g, '').replace(/\}/, '');
-    domVariables.modalHall.children[0].children[0].innerHTML += `${result}<br>`;
+    domVariables.modalHall.children[0].children[0].innerHTML += `${index+1})   ${result}<br><br>`;
   });
   
 
@@ -153,20 +155,22 @@ function checkCard(event) {
   let pair = gameVariables.matchingPair;
   // Listen to the board but accept only card clicks
   if (element.tagName === 'IMG') {
-    element.style.transform = 'scale(1.1)';
+    element.parentNode.className = 'flipIn';
     // Swaps src and alt attributes
-    flipCard(element);
-    // Use an array with two slots that we are going to fill to later compare them(pair variable)
-    if (pair.length === 0) {
-      pair.push(element.parentNode);
-    } else if (pair.length === 1 && pair[0].parentNode.id !== element.parentNode.id) {
-      pair.push(element.parentNode);
-    }
-    if (pair.length === 2) {
-      let match1 = pair[0];
-      let match2 = pair[1];
-      checkPairs(match1, match2);
-    }
+    setTimeout(() => {
+      flipCard(element);
+      // Use an array with two slots that we are going to fill to later compare them(pair variable)
+      if (pair.length === 0) {
+        pair.push(element.parentNode);
+      } else if (pair.length === 1 && pair[0].parentNode.id !== element.parentNode.id) {
+        pair.push(element.parentNode);
+      }
+      if (pair.length === 2) {
+        let match1 = pair[0];
+        let match2 = pair[1];
+        checkPairs(match1, match2);
+      }
+    }, 200);
   }
 }
 
@@ -181,7 +185,7 @@ function checkPairs(card1, card2) {
     // Mark guess cards as 'matched'
     pair.forEach(card => {
       if (!card.className.includes('matched')) {
-        card.style.filter = 'grayscale(100%)';
+        card.style.filter = 'brightness(50%)';
         card.style.border = 'none';
         card.className += ' matched';
       }
@@ -270,11 +274,9 @@ function generatePairOfCards(number) {
   // We are going to generate a pir of cards per iteration
   for (let i = 1; i <= number; i = i + 2) {
     let arrOfIndex = [];
-    let imageIndex;
     // Checks for repeated cards
-    do {
-      imageIndex = getNumber(0, images.length);
-    } while (arrOfIndex.includes(imageIndex));
+    let imageIndex = getNumber(0, images.length);
+    images.splice(imageIndex, 1);
     arrOfIndex.push(imageIndex);
     // Create two cards
     let card1 = createCardElement();
@@ -298,7 +300,7 @@ function generatePairOfCards(number) {
   // Create one single card element
   function createCardElement() {
     let cardContainer = document.createElement('div');
-    cardContainer.className = 'card-container';
+    // cardContainer.className = 'card-container';
     let img = document.createElement('img');
     img.className = 'card-img';
     cardContainer.appendChild(img);
@@ -315,6 +317,7 @@ function setGridVariables(rows, columns) {
 // Flip card on click
 function flipCard(element) {
   const sourceImg = element.getAttribute('alt');
+  element.parentNode.className = 'flipOut';
   element.setAttribute('src', sourceImg);
 }
 

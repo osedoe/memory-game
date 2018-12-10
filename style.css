@@ -42,6 +42,36 @@ button:active, input[type='button']:active {
     transform: scale(.95);
 } 
 
+/* Flip animation */
+@keyframes flipCardOut {
+    0% {
+        transform: scaleX(1);
+    }
+    100% {
+        transform: scaleX(0);
+    }
+}
+
+@keyframes flipCardIn {
+    0% {
+        transform: scaleX(0);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+
+.flipIn {
+    animation-name: flipCardOut;
+    animation-duration: .4s;
+}
+
+.flipOut {
+    animation-name: flipCardIn;
+    animation-duration: .4s;
+}
+
 /* Header */
 header {
     background: palevioletred;
@@ -117,7 +147,7 @@ min-height: 70vh;
 .boardContainer img:hover {
     border: none;
     outline: 4px solid darkmagenta;
-    filter: brightness(120%);
+    filter: brightness(130%);
 }
 
 .boardContainer .matched:hover {
