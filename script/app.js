@@ -18,6 +18,7 @@ const domVariables = {
   // Others
   container: document.getElementsByClassName('boardContainer')[0],
   score: document.getElementById('score'),
+  timerContainer: document.getElementById('timer-container'),
   minutes: document.getElementById('minutes'),
   seconds: document.getElementById('seconds'),
   modalResult: document.getElementsByClassName('modal')[0],
@@ -55,6 +56,7 @@ window.addEventListener('load', () => {
 
 // Selection of the game
 domVariables.submit.addEventListener('click', function () {
+  event.target.disabled = 'true';
   domVariables.score.textContent = gameVariables.score;
   const inputs = this.parentNode.parentNode.children;
   let choice;
@@ -81,6 +83,7 @@ domVariables.submit.addEventListener('click', function () {
 
 // Check mechanics each time a card is clicked
 domVariables.container.addEventListener('click', function (event) {
+  event.target.disabled = 'true';
   checkCard(event);
 });
 
@@ -327,6 +330,7 @@ function flipCard(element) {
 // Timer function
 function runTimer() {
   // Reset value each time it hits 9
+  domVariables.timerContainer.className = 'bounceInOut';
   const pad = value => (value > 9) ? value : '0' + value;
   let second = 0;
   gameVariables.stopInterval = setInterval(function () {
