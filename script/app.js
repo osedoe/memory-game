@@ -1,6 +1,4 @@
 /* eslint-disable no-undef */
-// TODO: show last results 
-
 // ==== Variable declaration ==== //
 // Path for reverse image
 const reverseCardPath = '/assets/reverso.png';
@@ -15,14 +13,18 @@ const domVariables = {
   saveBtn: document.getElementById('save-data'),
   hallBtn: document.getElementById('hall-of-fame'),
   closeHall: document.getElementById('close-hall'),
-  // Others
+  // == Others == //
+  // Containers
   container: document.getElementsByClassName('boardContainer')[0],
   score: document.getElementById('score'),
   timerContainer: document.getElementById('timer-container'),
+  // Timer
   minutes: document.getElementById('minutes'),
   seconds: document.getElementById('seconds'),
+  // Modal
   modalResult: document.getElementsByClassName('modal')[0],
   modalHall: document.getElementsByClassName('modal')[1],
+  // Displays
   scoreDisplay: document.getElementById('score-display'),
   timeDisplay: document.getElementById('time-display'),
   totalGames: document.getElementById('games-span'),
@@ -38,6 +40,7 @@ const gameVariables = {
   guessedPairs: 0,
   uniqueCards: 0,
   stopInterval: '',
+  // Used to store the data of each game
   currentGame: {
     name: '',
     score: '',
@@ -57,6 +60,7 @@ window.addEventListener('load', () => {
 // Selection of the game
 domVariables.submit.addEventListener('click', function () {
   event.target.disabled = 'true';
+  event.target.style.opacity = '0';
   domVariables.score.textContent = gameVariables.score;
   const inputs = this.parentNode.parentNode.children;
   let choice;
@@ -82,10 +86,7 @@ domVariables.submit.addEventListener('click', function () {
 });
 
 // Check mechanics each time a card is clicked
-domVariables.container.addEventListener('click', function (event) {
-  event.target.disabled = 'true';
-  checkCard(event);
-});
+domVariables.container.addEventListener('click', event => checkCard(event));
 
 // Reset buttons
 domVariables.reset.addEventListener('click', () => window.location.reload());
@@ -110,15 +111,11 @@ domVariables.saveBtn.addEventListener('click', () => {
   domVariables.modalResult.style.display = 'none';
 });
 
-
 // ==== Function declarations ==== //
 function getHallOfFame() {
   domVariables.modalHall.children[0].children[0].innerHTML = '';
   const arrayOfGames = getLocalStorageList();
-  // WWe will sort it depending on different paramenters
-  // const sortedGames = arrayOfGames.sort((game1, game2) => (game1.score < game2.score) ?
-  //   1 :
-  //   ((game2.score < game1.score) ? -1 : 0));
+  // We will sort it depending on different paramenters
   const sortedGames = arrayOfGames.sort((game1, game2) =>
     game2.score - game1.score || // Sort in descending order for score
     game1.time - game2.time || // If 0, sort in ascending order for time
@@ -130,13 +127,10 @@ function getHallOfFame() {
     let result = stringResult.replace(/"/g, ' ').replace(/\{/g, '').replace(/\}/, '');
     domVariables.modalHall.children[0].children[0].innerHTML += `${index+1})   ${result}<br><br>`;
   });
-  
-
 }
 
 // Dives into the Local Storage and get the maximum score out of all the games
-function getMaxScore() {
-  
+function getMaxScore() {  
   let arrayOfScores = [];
   let maxScore = 0;
   // Iterate and get the values and parse them to JavaScript objects
@@ -144,6 +138,10 @@ function getMaxScore() {
   // Create a new array only with the scores of those games
   arrayOfScores = arrayOfGames.map(game => game.score);
   maxScore = Math.max(...arrayOfScores);
+  // Hot fix: When there's no user info, set it to zero
+  if (maxScore < -999) { 
+    maxScore = 0;
+  }
   domVariables.maxScore.textContent = maxScore;
 }
 
@@ -161,6 +159,7 @@ function checkCard(event) {
   let pair = gameVariables.matchingPair;
   // Listen to the board but accept only card clicks
   if (element.tagName === 'IMG') {
+    element.style.pointerEvents = 'none';
     element.parentNode.className = 'flipIn';
     // Swaps src and alt attributes
     setTimeout(() => {
@@ -211,6 +210,7 @@ function checkPairs(card1, card2) {
         card.setAttribute('alt', card.getAttribute('src'));
         card.setAttribute('src', reverseCardPath);
         card.style.transform = 'scale(1)';
+        card.style.pointerEvents = 'auto';
       });
     }, 800);
   }
@@ -247,20 +247,17 @@ function chooseGrid(level) {
   // Assign 16 images
   case 'easy':
     numberOfCards = 16;
-    gridRows = 4;
-    gridColumns = 4;
+    gridRows = gridColumns = 4;
     break;
     // Assign 32 images
   case 'medium':
     numberOfCards = 36;
-    gridRows = 6;
-    gridColumns = 6;
+    gridRows = gridColumns = 6;
     break;
     // Assign 64 images
   case 'hard':
     numberOfCards = 64;
-    gridRows = 8;
-    gridColumns = 8;
+    gridRows = gridColumns = 8;
     break;
   default:
     // Nothing to do here
